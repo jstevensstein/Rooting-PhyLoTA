@@ -40,6 +40,8 @@ Each tree was analyzed to determine whether the relevant taxonomic classificatio
 
 Of the original 22,165 trees and 1,420,989 leaves in PhyLoTA, ~14,000 of those trees yielded a total of 24,371 subtrees with 713,260 tips/leaves. The analysis also retained 125,106 of the original 196,437 initial distinct Eukaryotic terminal taxa.
 
+We recognize the hesistance in using the taxonomic system, which has a bad reputation for adherring to hard phylogeny, as the rooting tool. However, in recent decades, taxonomy has been update to followtaxonomy more closely and further, the requirements for extracting any tree are extremely demanding. Therefore, while we recommend the results be taken with a grain of salt, we are very confident in their adherrence to phylogeny.
+
 ---
 
 IV. EXECUTION SPECS

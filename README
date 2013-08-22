@@ -1,0 +1,79 @@
+README
+
+---
+
+I. contents:
+
+-convex_subtrees
+	-24,371 .txt files of phylogenetic trees in Newick format
+	-tree_data.txt
+-phylota_db_analysis
+	-analyze_tree_data.py
+	-load_ncbi.py
+	-NCBIgraph.py
+	-pb.dmp.nr.trees.184
+	-tree_to_graph.py
+	-other accessory files
+---
+
+II. Dependencies and other files
+
+-Python 2.7
+-graph-tool and dependencies
+-ivy (ivy-phylo) and dependencies
+-taxdmp from ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+
+
+III. Design
+
+The purpose of this project was to root the 22,165 PhyLoTA trees for eventual inclusion in the Open Tree of Life project. However, outgroup rooting was not a viable option, given the PhyLoTA methods (clustering based on sequence similarity and maximum liklihood tree production based on those clusters with no distinct outgroup). Neither were midpoint rooting nor the molecular clock method options. Therefore, taxonomic classification was chosen as the rooting method.
+
+Each tree was analyzed to determine whether the relevant taxonomic classifications could produce undirected clades within the tree; if so, those clades were pruned out and analysis continued. Alternatively, these undirected clades can be though of as absolutely convex subtrees, the situation where there exists only one edge between a colored and uncolored node (in this case, the color being whether or not these nodes belong to the taxa or not). The algorithm is as follows:
+
+1) choose arbitrary tip 
+2) Determine tip’s most inclusive biological classification that does not span entire tree
+3) color all the tips belonging to that classification
+4) check that at least 3 tips are colored; if not return to step one and do not repeat this classification
+5)iterate through the colored tree, coloring any uncolored node with all but one uncolored edge; repeat until no recolorations occur 
+6) check if the colored nodes produce a convex subtree/undirected clade; if so, extract, save, and replace with new tip with no characteristics
+7) repeat steps 1-6 for	all	tips without repeating a check for any classiﬁcation
+
+Of the original 22,165 trees and 1,420,989 leaves in PhyLoTA, ~14,000 of those trees yielded a total of 24,371 subtrees with 713,260 tips/leaves. The analysis also retained 125,106 of the original 196,437 initial distinct Eukaryotic terminal taxa.
+
+---
+
+IV. EXECUTION SPECS
+
+To run this program as intially executed, do the following:
+
+1. Determine a working directory (WD).
+2. Download taxdmp and include the files in a directory named 'ncbi_db' in the working WD.
+3. Add the phylota_db_analysis directory to the WD.
+4. Create a new directory named 'convex_subtrees' to the WD. This will be the destination for rooted subtrees and the file describing them.
+5. From phylota_db_analysis, perform the following executables:
+	%run -i NCBIgraph.py
+	G, tid2v, name2v, tid2rank = create_taxonomy_graph()
+	add_propmap_taxa_not_clade(G, keyword_not_clade)
+	save_taxonomy_graph(G, 'db.xml')
+	%run -i pan_thru_phylota_trees.py
+
+The process will take an extended period of time (mutiple days, likely).
+
+Note that analyze_tree_data has multiple tools for the analysis of the tree_data.txt file produced upon running the code.
+
+All are welcome to use this code and its products for non-commercial purposes and are further encouraged to add to and improve this code and its methods. This code is easily adabtaple to any phylogenetic tree data in Newick format.
+
+---
+
+V. Acknowledgements
+
+Author - Joshua Stevens-Stein, Unviersity of Chicago and the Field Museum
+Advsor and mentor - Dr. Richard Ree, the Field Museum
+
+Thanks to the Field Museum, the Field Museum REU program and its staff (Stephanie Ware, Petra Sierwald, Kenneth Angielczyk, and others), the NSF, and the authors of all codedependencies
+
+---
+
+VI. Contact
+
+jstevensstein@gmail.com
